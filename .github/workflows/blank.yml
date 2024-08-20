@@ -61,7 +61,7 @@ jobs:
           echo "DEPLOYMENT_ENV=dev" >> "$GITHUB_ENV"
           echo "S3_BUCKET=$DEV_S3_BUCKET" >> "$GITHUB_ENV"
           echo "ECR_URI=$DEV_ECR_URI" >> "$GITHUB_ENV"
-          echo "STACK_NAME=worley-nc-deployment" >> "$GITHUB_ENV"
+          echo "STACK_NAME=dev-stack" >> "$GITHUB_ENV"
           echo "DEPLOYMENT_ROLE_ARN=$DEV_DEPLOYMENT_ROLE" >> "$GITHUB_ENV"
          fi
 
@@ -73,25 +73,20 @@ jobs:
           echo "Deployment Stack Name : ${{ env.STACK_NAME }}"
     #      echo "Deployment Environment: ${{ env.DEPLOYMENT_ENV }}"
 
-    
-
-
-    - name: Install cfn-lint
-      run: pip install cfn-lint
  
     - name: Print the CloudFormation Linter Version & Run Linter
       run: |
         cfn-lint --version
         cfn-lint --ignore-checks W3011,W3002 -t ./template.yml
-        cfn-lint --ignore-checks W3011,W3002 -t ./resources/vpc.yaml
+ 
 
+   
         
     - name: Deploy to AWS Cloudformation
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: ${{ env.STACK_NAME }}
         template:  ./template.yml
-        parameter-overrides: file://${{ github.workspace }}/params.${{ env.DEPLOYMENT_ENV }}.json
+        parameter-overrides: file://${{ github.workspace }}/resources/params.${{ env.DEPLOYMENT_ENV }}.json
         capabilities: CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND, CAPABILITY_NAMED_IAM
         no-fail-on-empty-changeset: "1"
-        

@@ -37,7 +37,7 @@ Parameters:
 Resources:
 
   NestedVPCStack:
-    Type: AWS::CloudFormation::Stack
+    Type: AWS::Serverless::Application
     Properties:
       Location: resources/vpc.yml
       Parameters:

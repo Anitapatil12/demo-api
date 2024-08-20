@@ -73,9 +73,6 @@ jobs:
           echo "Deployment Stack Name : ${{ env.STACK_NAME }}"
     #      echo "Deployment Environment: ${{ env.DEPLOYMENT_ENV }}"
 
-    - name: Upload nested stack templates to S3
-      run: |
-        aws s3 cp template.yal "s3://${{ env.S3_BUCKET }}/"
 
 
     - name: Install cfn-lint

@@ -12,9 +12,9 @@ Parameters:
 Resources:
 
   NestedVPCStack:
-    Type: AWS::Serverless::Application
+    Type: AWS::CloudFormation::Stack
     Properties:
-      Location: resources/rds.yml
+      TemplateURL: resources/rds.yml
       Parameters:
         VpcCIDR: !Ref VpcCIDR
         vpcname: !Ref vpcname
